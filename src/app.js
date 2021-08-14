@@ -2,23 +2,23 @@ const PLAYERS = [
     "Spiderman",
     "Captain America",
     "Wonderwoman",
-    // "Popcorn",
-    // "Gemwoman",
-    // "Bolt",
-    // "Antwoman",
-    // "Mask",
-    // "Tiger",
-    // "Captain",
-    // "Catwoman",
-    // "Fish",
-    // "Hulk",
-    // "Ninja",
-    // "Black Cat",
-    // "Volverine",
-    // "Thor",
-    // "Slayer",
-    // "Vader",
-    // "Slingo"
+    /*"Popcorn",
+    "Gemwoman",
+    "Bolt",
+    "Antwoman",
+    "Mask",
+    "Tiger",
+    "Captain",
+    "Catwoman",
+    "Fish",
+    "Hulk",
+    "Ninja",
+    "Black Cat",
+    "Volverine",
+    "Thor",
+    "Slayer",
+    "Vader",
+    "Slingo"*/
 ];
 
 // Player Class
@@ -26,7 +26,11 @@ class Player {
     constructor(id, name, type) {
         // Create member variables and assign values
         // Type your code
-
+        this.id = id;
+        this.name = name;
+        this.strength = this.getRandomStrength();
+        this.image = "images/super-" + (id + 1) + ".png";;
+        this.type = type;
     }
 
     // getting random strength
@@ -38,33 +42,43 @@ class Player {
     view = () => {
         // Accumulate HTML template
         // Type your code here
-
-    
-        return player;
+        let divElement = document.createElement('div');
+        let player = `<div class="player" data-id="${this.id}">
+        <img src="${this.image}">
+        <div class="name">${this.name}</div>
+        <div class="strength">${this.strength}</div>
+        </div>`;
+        divElement.innerHTML=player;
+        return divElement.firstChild;
     }
 }
 
 // Superwar Class
 class Superwar {
     constructor(players) {
-    // Create a field players 
-    // Use Map method to loop through players argument and create new players
-    // Type your code here
-
+        // Create a field players 
+        // Use Map method to loop through players argument and create new players
+        // Type your code here
+        this.players = players.map((player, index) => {
+            if (index % 2 == 0) {
+                return new Player(index, player, "hero");
+            }
+            else {
+                return new Player(index, player, "villain");
+            }
+        });       
     }
 
     // Display players in HTML
     viewPlayers = () => {
         let team = document.getElementById('heroes');
         team.innerHTML = '';
-        let fragment =
-            this.buildPlayers('hero');
+        let fragment = this.buildPlayers('hero');
         team.append(fragment);
 
         team = document.getElementById('villains');
         team.innerHTML = '';
-        fragment =
-            this.buildPlayers('villain');
+        fragment = this.buildPlayers('villain');
         team.append(fragment);
     }
 
